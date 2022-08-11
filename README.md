@@ -39,7 +39,7 @@ It runs already automaticly as a command per service app definition (on docker-c
 
 ## **Pgadmin:**
 
-On browser navigate to [http://127.0.0.1:5050/browser/]((on browser navigate to http://127.0.0.1:5050/browser/))
+On browser navigate to http://127.0.0.1:5050/browser/
 
 **username**: `admin@admin.com`
 **password**: `admin`
@@ -53,12 +53,12 @@ On browser navigate to [http://127.0.0.1:5050/browser/]((on browser navigate to 
 
 ## **Fastapi Documentation:**
 
-On browser navigate to [http://127.0.0.1:8000/docs]( (on browser navigate to http://127.0.0.1:8000/docs))
+On browser navigate to http://127.0.0.1:8000/docs
 
 
 # Logging Instrumentation:
  - Instrumentation done with Prometheus using starlette-prometheus
- - On the browser, navigate to [http://127.0.0.1:8000/metrics](http://127.0.0.1:8000/metrics) to check the logs.
+ - On the browser, navigate to http://127.0.0.1:8000/metrics to check the logs.
 
 
 #TODO:
