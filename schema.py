@@ -18,6 +18,10 @@ class Wallet(BaseModel):
         orm_mode = True
 
 
+class Balance(BaseModel):
+    balance: int
+
+
 class Transaction(BaseModel):
     destination_user: int
     amount: int
