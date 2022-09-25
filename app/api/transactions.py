@@ -3,21 +3,22 @@ from schema import Transaction as SchemaTransaction
 from fastapi_sqlalchemy import db
 from fastapi import Depends, HTTPException
 from fastapi import APIRouter
-from app.api.auth import auth_required
+import schema
+from aux.oauth2 import get_current_user
 
-router = APIRouter()
+router = APIRouter(tags=["Transactions"])
 
 
 @router.post(
     "/create-transaction/",
-    response_model=SchemaTransaction,
-    dependencies=[Depends(auth_required)],
+    response_model=SchemaTransaction
 )
 async def create_transaction(
-    transaction: SchemaTransaction, user_logged_in: User = Depends(auth_required)
+    transaction: SchemaTransaction,
+    current_user: schema.User = Depends(get_current_user),
 ):
     origin_wallet = (
-        db.session.query(Wallet).filter_by(id=user_logged_in.wallet.id).first()
+        db.session.query(Wallet).filter_by(id=current_user.wallet.id).first()
     )
 
     if not origin_wallet:
@@ -52,13 +53,13 @@ async def create_transaction(
             detail="The user that you are trying to send money to, does not have a wallet.",
         )
 
-    if origin_wallet.user_id != user_logged_in.id:
+    if origin_wallet.user_id != current_user.id:
         raise HTTPException(
             status_code=404,
             detail="You are not the owner of this wallet. Please login with the owner credentials.",
         )
 
-    if transaction.amount > user_logged_in.wallet.balance:
+    if transaction.amount > current_user.wallet.balance:
         raise HTTPException(
             status_code=404,
             detail="You are not have enough funds.",
@@ -94,11 +95,11 @@ async def create_transaction(
     return transaction
 
 
-@router.get("/transactions/", dependencies=[Depends(auth_required)])
-async def get_transactions(user_logged_in: User = Depends(auth_required)):
+@router.get("/transactions/")
+async def get_transactions(current_user: schema.User = Depends(get_current_user)):
     return (
         db.session.query(Wallet)
-        .filter_by(id=user_logged_in.wallet.id)
+        .filter_by(id=current_user.wallet.id)
         .first()
         .transactions
     )
