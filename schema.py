@@ -34,3 +34,7 @@ class TransactionResponse(BaseModel):
     amount: int
     description: str
     time_created: str
+    
+class Login(BaseModel):
+    name: str
+    password: str

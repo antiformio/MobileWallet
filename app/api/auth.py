@@ -1,6 +1,10 @@
 from models.models import User
 from fastapi_sqlalchemy import db
-from fastapi import Header, HTTPException
+from fastapi import Header, HTTPException, status, APIRouter
+import schema
+from database import get_db
+from fastapi import Depends
+from sqlalchemy.orm import Session
 
 
 def verify_password(user, password):
@@ -17,3 +21,15 @@ async def auth_required(
     if not verify_password(user, password):
         raise HTTPException(status_code=400, detail="Invalid password")
     return user
+
+
+router = APIRouter()
+
+@router.post('/login', tags=["Authentication"])
+def login(request: schema.Login, db: Session = Depends(get_db)):
+    db_user = db.query(User).filter_by(name=request.name).first()
+    if not db_user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid Credentials")
+    return db_user
+
+

@@ -11,7 +11,7 @@ router = APIRouter()
 @router.post(
     "/create-transaction/",
     response_model=SchemaTransaction,
-    dependencies=[Depends(auth_required)],
+    dependencies=[Depends(auth_required)], tags=["Transactions"]
 )
 async def create_transaction(
     transaction: SchemaTransaction, user_logged_in: User = Depends(auth_required)
@@ -94,7 +94,7 @@ async def create_transaction(
     return transaction
 
 
-@router.get("/transactions/", dependencies=[Depends(auth_required)])
+@router.get("/transactions/", dependencies=[Depends(auth_required)], tags=["Transactions"])
 async def get_transactions(user_logged_in: User = Depends(auth_required)):
     return (
         db.session.query(Wallet)

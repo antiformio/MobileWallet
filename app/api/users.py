@@ -5,16 +5,23 @@ from fastapi_sqlalchemy import db
 from fastapi import Depends, HTTPException
 from fastapi import APIRouter
 from app.api.auth import auth_required
+from sqlalchemy.orm import Session
+from database import get_db
+
 
 router = APIRouter()
 
+# TODO CREATE CONTROLLERS (FETCH DATA)
+#  AND REPOSITORY FILE HOLDING THE LOGIC ON CREATING DELETING ETC FOR ALL MODELS
+#   THEN THE VIEW CALLS THE CONTROLLER, AND THE CONTROLLER CALLS THE REPOSITORY
 
-@router.get("/users/", dependencies=[Depends(auth_required)])
+
+@router.get("/users/", dependencies=[Depends(auth_required)], tags=["Users"])
 async def get_users():
     return db.session.query(User).all()
 
 
-@router.get("/user/{user_id}", dependencies=[Depends(auth_required)])
+@router.get("/user/{user_id}", dependencies=[Depends(auth_required)], tags=["Users"])
 async def get_user(user_id: int):
     user = db.session.query(User).filter_by(id=user_id).first()
     if not user:
@@ -32,7 +39,7 @@ async def create_user(user: SchemaUser):
     return db_user
 
 
-@router.delete("/user/{user_id}", dependencies=[Depends(auth_required)])
+@router.delete("/user/{user_id}", dependencies=[Depends(auth_required)], tags=["Users"])
 async def delete_wallet(user_id: int):
     user = db.session.query(User).filter_by(id=user_id).first()
     if not user:
