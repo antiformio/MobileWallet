@@ -10,11 +10,8 @@ from aux.oauth2 import get_current_user
 
 router = APIRouter(tags=["Users"])
 
-# TODO CREATE CONTROLLERS (FETCH DATA)
-#  AND REPOSITORY FILE HOLDING THE LOGIC ON CREATING DELETING ETC FOR ALL MODELS
-#   THEN THE VIEW CALLS THE CONTROLLER, AND THE CONTROLLER CALLS THE REPOSITORY
-#  check https://www.jeffastor.com/blog/hooking-fastapi-endpoints-up-to-a-postgres-database
-
+# TODO CREATE SERVICE LAYER ARCHITECTURE (FETCH DATA)
+#   check https://camillovisini.com/article/abstracting-fastapi-services/
 
 @router.get("/users/")
 async def get_users(current_user: schema.User = Depends(get_current_user)):
