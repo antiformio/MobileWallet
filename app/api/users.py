@@ -6,6 +6,7 @@ from fastapi_sqlalchemy import db
 from fastapi import Depends, HTTPException, status, APIRouter
 from aux.hashing import bcrypt_password
 from aux.oauth2 import get_current_user
+from typing import List
 
 
 router = APIRouter(tags=["Users"])
@@ -13,7 +14,11 @@ router = APIRouter(tags=["Users"])
 # TODO CREATE SERVICE LAYER ARCHITECTURE (FETCH DATA)
 #   check https://camillovisini.com/article/abstracting-fastapi-services/
 
-@router.get("/users/")
+# TODO async orm 
+
+# TODO Add response models to all user and wallet 
+
+@router.get("/users/", response_model=List[SchemaUser])
 async def get_users(current_user: schema.User = Depends(get_current_user)):
     return db.session.query(User).all()
 
