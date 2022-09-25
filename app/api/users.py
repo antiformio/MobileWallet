@@ -13,6 +13,7 @@ router = APIRouter(tags=["Users"])
 # TODO CREATE CONTROLLERS (FETCH DATA)
 #  AND REPOSITORY FILE HOLDING THE LOGIC ON CREATING DELETING ETC FOR ALL MODELS
 #   THEN THE VIEW CALLS THE CONTROLLER, AND THE CONTROLLER CALLS THE REPOSITORY
+#  check https://www.jeffastor.com/blog/hooking-fastapi-endpoints-up-to-a-postgres-database
 
 
 @router.get("/users/")
