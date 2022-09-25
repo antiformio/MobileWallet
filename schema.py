@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List, Optional
 
 
 class User(BaseModel):
@@ -34,7 +35,17 @@ class TransactionResponse(BaseModel):
     amount: int
     description: str
     time_created: str
-    
+
+
 class Login(BaseModel):
     name: str
     password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: Optional[str] = None

@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 import os
 
+
 def get_db():
     db = SessionLocal()
     try:
@@ -13,10 +14,17 @@ def get_db():
     finally:
         db.close()
 
+
 load_dotenv(".env")
 
-engine = create_engine(os.environ["DATABASE_URL"], connect_args={"check_same_thread": False})
+engine = create_engine(
+    os.environ["DATABASE_URL"], connect_args={"check_same_thread": False}
+)
 
-SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False,)
+SessionLocal = sessionmaker(
+    bind=engine,
+    autocommit=False,
+    autoflush=False,
+)
 
 Base = declarative_base()
