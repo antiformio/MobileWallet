@@ -1,5 +1,6 @@
 from models.models import User, Wallet
 from schema import Wallet as SchemaWallet
+from schema import Balance as SchemaBalance
 from fastapi_sqlalchemy import db
 from fastapi import Depends, HTTPException
 from fastapi import APIRouter
@@ -27,6 +28,11 @@ async def create_wallet(wallet: SchemaWallet):
 @router.get("/wallets/", dependencies=[Depends(auth_required)])
 async def get_users():
     return db.session.query(Wallet).all()
+
+
+@router.get("/balance/", dependencies=[Depends(auth_required)])
+async def get_balance(user_logged_in: User = Depends(auth_required)):
+    return {"balance": db.session.query(Wallet).filter_by(id=user_logged_in.wallet.id).first().balance}
 
 
 @router.delete("/wallet/{wallet_id}", dependencies=[Depends(auth_required)])
