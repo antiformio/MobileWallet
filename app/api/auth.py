@@ -5,6 +5,7 @@ import schema
 from database import get_db
 from fastapi import Depends
 from sqlalchemy.orm import Session
+from aux.hashing import verify
 
 
 def verify_password(user, password):
@@ -25,11 +26,15 @@ async def auth_required(
 
 router = APIRouter()
 
-@router.post('/login', tags=["Authentication"])
+
+@router.post("/login", tags=["Authentication"])
 def login(request: schema.Login, db: Session = Depends(get_db)):
     db_user = db.query(User).filter_by(name=request.name).first()
     if not db_user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid Credentials")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid Credentials"
+        )
+
+    if verify(db_user.db_password, request.password):
+        pass
     return db_user
-
-

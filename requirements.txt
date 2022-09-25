@@ -15,3 +15,5 @@ passlib==1.7.4
 starlette-prometheus==0.9.0
 requests==2.28.1
 pytest==7.1.2
+passlib
+bcrypt

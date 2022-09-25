@@ -5,8 +5,7 @@ from fastapi_sqlalchemy import db
 from fastapi import Depends, HTTPException
 from fastapi import APIRouter
 from app.api.auth import auth_required
-from sqlalchemy.orm import Session
-from database import get_db
+from aux.hashing import bcrypt
 
 
 router = APIRouter()
@@ -32,7 +31,9 @@ async def get_user(user_id: int):
 @router.post("/add-user/", response_model=SchemaUser)
 async def create_user(user: SchemaUser):
     db_user = User(
-        name=user.name, db_username=user.db_username, db_password=user.db_password
+        name=user.name,
+        db_username=user.db_username,
+        db_password=bcrypt(user.db_password),
     )
     db.session.add(db_user)
     db.session.commit()
