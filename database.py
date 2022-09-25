@@ -17,9 +17,15 @@ def get_db():
 
 load_dotenv(".env")
 
-engine = create_engine(
-    os.environ["DATABASE_URL"], connect_args={"check_same_thread": False}
-)
+# POSTGRES doesnt have the check_same_thread, only SQLITE
+if os.environ["DATABASE_URL"] == 'postgresql+psycopg2://root:password@db:5432/mobilewallet':
+    engine = create_engine(
+        os.environ["DATABASE_URL"]
+    )
+else:
+    engine = create_engine(
+        os.environ["DATABASE_URL"], connect_args={"check_same_thread": False}
+    )
 
 SessionLocal = sessionmaker(
     bind=engine,

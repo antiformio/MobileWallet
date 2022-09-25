@@ -18,7 +18,6 @@ def login(
 ):
     db_user = db.query(User).filter_by(name=request.username).first()
     if not db_user:
-        # TODO: The class is expecting headers ? check this bug
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials"
         )
