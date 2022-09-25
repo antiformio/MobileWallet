@@ -1,0 +1,9 @@
+app/api/__pycache__/
+app/__pycache__/
+alembic/versions/__pycache__/
+alembic/__pycache__/
+__pycache__/
+models/__pycache__/
+.mobilewallet.db
+aux/__pycache__/
+walletAPI.json
