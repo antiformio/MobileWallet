@@ -17,6 +17,7 @@ async def create_transaction(
     transaction: SchemaTransaction,
     current_user: schema.User = Depends(get_current_user),
 ):
+    #TODO check bug upon creating transaction
     origin_wallet = (
         db.session.query(Wallet).filter_by(id=current_user.wallet.id).first()
     )
