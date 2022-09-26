@@ -33,14 +33,13 @@ async def get_user(user_id: int, current_user: schema.User = Depends(get_current
         )
 
 
+# TODO: create schemas for other apps wallet, transaction etc, then use schema.dict
 @router.post("/add-user/", response_model=SchemaUser)
 async def create_user(
     user: SchemaUser
 ):
     db_user = User(
-        name=user.name,
-        db_username=user.db_username,
-        db_password=bcrypt_password(user.db_password),
+        **user.dict()
     )
     db.session.add(db_user)
     db.session.commit()
